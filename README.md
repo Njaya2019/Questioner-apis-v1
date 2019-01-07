@@ -11,7 +11,7 @@ def test_createmeetup(cli_ent):
     data=json.loads(response.data)
     assert response.status_code==201
     assert "congratulations you have created a meet up" in data["message"]
-
+    
 ```
 
 How to run the tests.
