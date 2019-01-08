@@ -1,5 +1,8 @@
 # Questioner api version 1
 
+[![Build Status](https://travis-ci.org/Njaya2019/Questioner-apis-v1.svg?branch=developer)](https://travis-ci.org/Njaya2019/Questioner-apis-v1)
+
+[![Coverage Status](https://coveralls.io/repos/github/Njaya2019/Questioner-apis-v1/badge.png?branch=developer)](https://coveralls.io/github/Njaya2019/Questioner-apis-v1?branch=developer)
 ## Tests
 
 ```python
