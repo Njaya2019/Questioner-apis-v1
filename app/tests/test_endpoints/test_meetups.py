@@ -53,3 +53,10 @@ def test_get_a_meetup_record_notfound(cli_ent):
     data=json.loads(response.data)
     assert response.status_code==404
     assert 'The meetup record wasn\'t found' in data["message"]
+
+"""""""Tests if the enpoint can get all meet ups"""""""
+def test_get_all_meetups(cli_ent):
+    response=cli_ent.get('/api/v1/admin/meetups')
+    data=json.loads(response.data)
+    assert response.status_code==200
+    assert data=={'Meetups':meetups_list}
