@@ -1,6 +1,7 @@
 import pytest, json
 import datetime
 from application import create_app
+from models.meetups_model import meetups_list
 
 
 """""""Creates a test client fixture to be used in several test cases"""""""
@@ -37,3 +38,17 @@ def test_createmeetup_invalid_value(cli_ent):
     data=json.loads(response.data)
     assert response.status_code==400
     assert "Please provide valid data" in data["message"]
+
+"""""""A test to get a specific meetup record"""""""
+def test_get_a_meetup_record(cli_ent):
+    response=cli_ent.get('/api/v1/admin/meetups/'+str(1))
+    data=json.loads(response.data)
+    assert response.status_code==200
+    assert meetups_list[1-1] in data["meetup_record"]
+
+
+def test_get_a_meetup_record_notfound(cli_ent):
+    response=cli_ent.get('/api/v1/admin/meetups/'+str(2))
+    data=json.loads(response.data)
+    assert response.status_code==404
+    assert 'The meetup record wasn\'t found' in data["message"]
