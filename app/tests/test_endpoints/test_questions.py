@@ -1,7 +1,7 @@
 import pytest, json
 import datetime
 from application import create_app
-from models.questions_model import questions_list
+from models.questions_model import questions_list,questionsmodel
 
 
 """""""Creates a test client fixture to be used in several test cases"""""""
@@ -45,7 +45,7 @@ def test_upvote(cli_ent):
     response=cli_ent.patch('/api/v1/user/question/'+str(1)+'/upvote')
     data=json.loads(response.data)
     assert response.status_code==200
-
+    assert data['upvoted_question']==questionsmodel.up_vote_question(1)
 """""""Tests if the enpoint would reject an up-vote  to question that doesn't exist"""""""
 def test_upvote_empty_quetion(cli_ent):
     response=cli_ent.patch('/api/v1/user/question/'+str(2)+'/upvote')
