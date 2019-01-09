@@ -1,6 +1,7 @@
 import pytest, json
 import datetime
 from application import create_app
+from models.questions_model import questions_list
 
 
 """""""Creates a test client fixture to be used in several test cases"""""""
@@ -38,3 +39,16 @@ def test_createquestion_invalid_value(cli_ent):
     assert response.status_code==400
     assert "Please provide valid data" in data["error"]
     assert 400==data["status"]
+
+"""""""Tests if the enpoint can implement an up-vote on a question"""""""
+def test_upvote(cli_ent):
+    response=cli_ent.patch('/api/v1/user/question/'+str(1)+'/upvote')
+    data=json.loads(response.data)
+    assert response.status_code==200
+
+"""""""Tests if the enpoint would reject an up-vote  to question that doesn't exist"""""""
+def test_upvote_empty_quetion(cli_ent):
+    response=cli_ent.patch('/api/v1/user/question/'+str(2)+'/upvote')
+    data=json.loads(response.data)
+    assert response.status_code==403
+    assert data['error']=='Forbidden. The question doesn\'t exist'
