@@ -22,3 +22,19 @@ def test_createquestion(cli_ent):
     assert 1==data["question_id"]
     assert "Access a value after an update query in postgresql" in data["question_title"]
     assert "I want to display the values to a user after they have updated instead of just an update message" in data["question_description"]
+
+"""""""This tests if one of the values wasn't provided"""""""
+def test_createquestion_empty_value(cli_ent):
+    response=cli_ent.post('/api/v1/user/createquestion',data=json.dumps(dict(question_title="Access a value after an update query in postgresql",qusetion_description=None,user_id=1,meetup_id=1)),content_type="application/json")
+    data=json.loads(response.data)
+    assert response.status_code==422
+    assert "Please fill all the question information" in data["error"]
+    assert 422==data["status"]
+
+"""""""This tests if the values are invalid. An integer instead of a string."""""""
+def test_createquestion_invalid_value(cli_ent):
+    response=cli_ent.post('/api/v1/user/createquestion',data=json.dumps(dict(question_title="Access a value after an update query in postgresql",qusetion_description="I want to display the values to a user after they have updated instead of just an update message",user_id="1",meetup_id=1)),content_type="application/json")
+    data=json.loads(response.data)
+    assert response.status_code==400
+    assert "Please provide valid data" in data["error"]
+    assert 400==data["status"]
