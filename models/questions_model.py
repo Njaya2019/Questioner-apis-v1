@@ -15,9 +15,10 @@ class questionsmodel():
         self.user_id=user_id
         self.meetup_id=meetup_id
         self.date_asked=now
+        self.votes=0
         self.question_id=len(questions_list)+1
     """""""An intance method to ask a question and returnit's id,title and description"""""""
     def ask_question(self):
-        question_dict={"question_id":self.question_id,"question_title":self.question_title,"question_description":self.question_description,"user_id":self.user_id,"meetup_id":self.meetup_id,"date_created":self.date_asked}
+        question_dict={"question_id":self.question_id,"question_title":self.question_title,"question_description":self.question_description,"user_id":self.user_id,"meetup_id":self.meetup_id,"date_created":self.date_asked,"votes":self.votes}
         questions_list.append(question_dict)
         return {"question_id":self.question_id,"question_title":self.question_title,"question_description":self.question_description}
