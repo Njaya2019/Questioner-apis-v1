@@ -42,13 +42,13 @@ def test_createquestion_invalid_value(cli_ent):
 
 """""""Tests if the enpoint can implement an up-vote on a question"""""""
 def test_upvote(cli_ent):
-    response=cli_ent.patch('/api/v1/user/question/'+str(1)+'/upvote')
+    response=cli_ent.patch('/api/v1/user/question/'+str(1)+'/upvote',content_type="application/json")
     data=json.loads(response.data)
     assert response.status_code==200
     assert data['upvoted_question']==questionsmodel.up_vote_question(1)
 """""""Tests if the enpoint would reject an up-vote  to question that doesn't exist"""""""
 def test_upvote_empty_quetion(cli_ent):
-    response=cli_ent.patch('/api/v1/user/question/'+str(2)+'/upvote')
+    response=cli_ent.patch('/api/v1/user/question/'+str(2)+'/upvote',content_type="application/json")
     data=json.loads(response.data)
     assert response.status_code==403
     assert data['error']=='Forbidden. The question doesn\'t exist'
