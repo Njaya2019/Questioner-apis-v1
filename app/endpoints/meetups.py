@@ -1,5 +1,5 @@
 from flask import Blueprint,request,jsonify
-from models.meetups_model import meetups
+from models.meetups_model import meetups,meetups_list
 from validators.validate_json import validate_json_values
 
 """""""Initialize a flask blueprint of meetups"""""""
@@ -34,4 +34,8 @@ def get_a_meetup_record(meetup_id):
         return jsonify({"meetup_record":meetup_record}), 200
     return jsonify({"message":"The meetup record wasn\'t found"}), 404
 
-
+"""""""An endpoint to get all meetups record"""""""
+@meetups_blueprint.route("/api/v1/admin/meetups", methods=["GET","POST"])
+def get_all_meetups():
+    """""""Uses global list imported from meetups_model that holds all meetups"""""""
+    return jsonify({"Meetups":meetups_list}), 200
