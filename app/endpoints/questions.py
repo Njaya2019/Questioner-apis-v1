@@ -26,5 +26,13 @@ def createquestion():
         question_asked=questionsmodel_obj.ask_question()
         return jsonify({"question_id":question_asked["question_id"],"question_title":question_asked["question_title"],"question_description":question_asked["question_description"]}),201
 
+"""""""An endpoint to upvote a question and raises an error if question doesn't exist"""""""
+@questions_blueprint.route("/api/v1/user/question/<int:question_id>/upvote", methods=["PATCH"])
+def test_upvote(question_id):
+    upvoted_question=questionsmodel.up_vote_question(question_id)
+    if type(upvoted_question)==dict:
+        return jsonify({'status':200,'upvoted_question':upvoted_question}), 200
+    return jsonify({'error':upvoted_question}),403
+
 
 
