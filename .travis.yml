@@ -1,0 +1,20 @@
+language: python
+
+python:
+   - "3.6"
+
+install:
+ - pip install -r requirements.txt
+ - pip install coverage
+ - pip install coveralls
+ - pip install pytest pytest-cov
+
+before_install:
+ - git clone -b develope https://github.com/Njaya2019/Questioner-apis-v1.git
+ - cd Questioner-apis-v1 
+ 
+script:
+ - pytest --cov=.
+
+after_success:
+ - coveralls
