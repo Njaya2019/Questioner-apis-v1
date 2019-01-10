@@ -58,6 +58,7 @@ def test_downvote(cli_ent):
     response=cli_ent.patch('/api/v1/user/question/1/downvote',content_type="application/json")
     data=json.loads(response.data)
     assert response.status_code==200
+    assert data['downvoted_question']==questionsmodel.down_vote_question(1)
 """""""Tests if the enpoint would reject an down-vote  to question that doesn't exist"""""""
 def test_downvote_empty_quetion(cli_ent):
     response=cli_ent.patch('/api/v1/user/question/2/downvote',content_type="application/json")
