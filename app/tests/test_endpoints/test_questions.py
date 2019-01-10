@@ -20,9 +20,9 @@ def test_createquestion(cli_ent):
     data=json.loads(response.data)
     assert response.status_code==201
     """""""This test if the enpoint creates and returns a question id,title and description"""""""
-    assert 1==data["question_id"]
-    assert "Access a value after an update query in postgresql" in data["question_title"]
-    assert "I want to display the values to a user after they have updated instead of just an update message" in data["question_description"]
+    assert 1==data["question"]["question_id"]
+    assert "Access a value after an update query in postgresql" in data["question"]["question_title"]
+    assert "I want to display the values to a user after they have updated instead of just an update message" in data["question"]["question_description"]
 
 """""""This tests if one of the values wasn't provided"""""""
 def test_createquestion_empty_value(cli_ent):
@@ -45,7 +45,7 @@ def test_upvote(cli_ent):
     response=cli_ent.patch('/api/v1/user/question/1/upvote',content_type="application/json")
     data=json.loads(response.data)
     assert response.status_code==200
-    assert data['upvoted_question']==questionsmodel.up_vote_question(1)
+    assert data['upvoted_question']["votes"]==1
 """""""Tests if the enpoint would reject an up-vote  to question that doesn't exist"""""""
 def test_upvote_empty_quetion(cli_ent):
     response=cli_ent.patch('/api/v1/user/question/2/upvote',content_type="application/json")
@@ -58,7 +58,7 @@ def test_downvote(cli_ent):
     response=cli_ent.patch('/api/v1/user/question/1/downvote',content_type="application/json")
     data=json.loads(response.data)
     assert response.status_code==200
-    assert data['downvoted_question']==questionsmodel.down_vote_question(1)
+    assert data['downvoted_question']["votes"]==0
 """""""Tests if the enpoint would reject an down-vote  to question that doesn't exist"""""""
 def test_downvote_empty_quetion(cli_ent):
     response=cli_ent.patch('/api/v1/user/question/2/downvote',content_type="application/json")
