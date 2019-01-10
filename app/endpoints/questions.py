@@ -28,11 +28,19 @@ def createquestion():
 
 """""""An endpoint to upvote a question and raises an error if question doesn't exist"""""""
 @questions_blueprint.route("/api/v1/user/question/<int:question_id>/upvote", methods=["PATCH"])
-def test_upvote(question_id):
+def upvote(question_id):
     upvoted_question=questionsmodel.up_vote_question(question_id)
     if type(upvoted_question)==dict:
         return jsonify({'status':200,'upvoted_question':upvoted_question}), 200
     return jsonify({'error':upvoted_question}),403
+
+"""""""An endpoint to downvote a question and raises an error if question doesn't exist"""""""
+@questions_blueprint.route("/api/v1/user/question/<int:question_id>/downvote", methods=["PATCH"])
+def downvote(question_id):
+    downvoted_question=questionsmodel.down_vote_question(question_id)
+    if type(downvoted_question)==dict:
+        return jsonify({'status':200,'downvoted_question':downvoted_question}), 200
+    return jsonify({'error':downvoted_question}),403
 
 
 

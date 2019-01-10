@@ -33,3 +33,14 @@ class questionsmodel():
         question_upvote=questions_list[question_id-1]
         question_upvote.update({"votes":cls.votes+1})
         return {"meetup_id":question_upvote['meetup_id'],"question_title":question_upvote['question_title'],"question_description":question_upvote['question_description'],"votes":question_upvote['votes']}
+    """""""A class method to down vote on a question by decreamenting votes variable by 1"""""""
+    @classmethod
+    def down_vote_question(cls,question_id):
+        if question_id > len(questions_list):
+            return "Forbidden. The question doesn\'t exist"
+        if not questions_list:
+            return "Forbidden. The question doesn\'t exist"
+        """""""gets the question and downvotes it"""""""
+        question_downvote=questions_list[question_id-1]
+        question_downvote.update({"votes":cls.votes+1})
+        return {"meetup_id":question_downvote['meetup_id'],"question_title":question_downvote['question_title'],"question_description":question_downvote['question_description'],"votes":question_downvote['votes']}
