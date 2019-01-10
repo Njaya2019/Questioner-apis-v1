@@ -52,3 +52,15 @@ def test_upvote_empty_quetion(cli_ent):
     data=json.loads(response.data)
     assert response.status_code==403
     assert data['error']=='Forbidden. The question doesn\'t exist'
+
+"""""""Tests if the enpoint can implement an downvote-vote on a question"""""""
+def test_downvote(cli_ent):
+    response=cli_ent.patch('/api/v1/user/question/1/downvote',content_type="application/json")
+    data=json.loads(response.data)
+    assert response.status_code==200
+"""""""Tests if the enpoint would reject an down-vote  to question that doesn't exist"""""""
+def test_downvote_empty_quetion(cli_ent):
+    response=cli_ent.patch('/api/v1/user/question/2/downvote',content_type="application/json")
+    data=json.loads(response.data)
+    assert response.status_code==403
+    assert data['error']=='Forbidden. The question doesn\'t exist'
