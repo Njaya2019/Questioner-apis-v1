@@ -2,9 +2,10 @@
 /__pycache__/
 /.pytest_cache/
 app/__pycache__/
+models/__pycache__/
 app/tests/__pycache__/
 app/tests/test_endpoints/__pycache__/
 app/tests/test_validators/__pycache__/
-models/__pycache__/
 Validators/__pycache__/
 app/endpoints/__pycache__/
+models/__pycache__/
