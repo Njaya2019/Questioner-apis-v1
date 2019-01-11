@@ -43,9 +43,8 @@ def test_createmeetup_invalid_value(cli_ent):
 def test_get_a_meetup_record(cli_ent):
     response=cli_ent.get('/api/v1/admin/meetups/'+str(1))
     data=json.loads(response.data)
-    meetup_record=meetups.get_a_meetup(1)
     assert response.status_code==200
-    assert data["meetup_record"]==meetup_record
+    assert data["meetup_record"]["meetup_title"]=="python programming for beginners"
 
 """""""Tests if the meetup wasn't found"""""""
 def test_get_a_meetup_record_notfound(cli_ent):

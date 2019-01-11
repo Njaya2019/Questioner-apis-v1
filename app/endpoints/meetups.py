@@ -34,7 +34,7 @@ def get_a_meetup_record(meetup_id):
     return jsonify({"status":404,"error_msg":meetup_record}),404
 
 """""""An endpoint to get all meetups record"""""""
-@meetups_blueprint.route("/api/v1/admin/meetups", methods=["GET","POST"])
+@meetups_blueprint.route("/api/v1/admin/meetups", methods=["GET"])
 def get_all_meetups():
     if not meetups_list:
         return jsonify({"status":404,"error_msg":"There are no meetups yet"}),404   

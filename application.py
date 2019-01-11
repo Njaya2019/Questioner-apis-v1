@@ -1,6 +1,6 @@
 from flask import Flask
-from app.api.v1.endpoints.meetups import meetups_blueprint
-from app.api.v1.endpoints.questions import questions_blueprint
+from app.endpoints.meetups import meetups_blueprint
+from app.endpoints.questions import questions_blueprint
 
 
 
