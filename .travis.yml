@@ -9,9 +9,7 @@ install:
  - pip install coveralls
  - pip install pytest pytest-cov
 
-before_install:
- - git clone -b develope https://github.com/Njaya2019/Questioner-apis-v1.git
- - cd Questioner-apis-v1 
+
  
 script:
  - pytest --cov=.
