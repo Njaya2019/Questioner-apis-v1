@@ -9,4 +9,4 @@ Validators/__pycache__/
 app/endpoints/__pycache__/
 models/__pycache__/
 app/tests/test_endpoints/__pycache__/
-app/tests/test_endpoints/__pycache__/
+*.pyc
