@@ -23,7 +23,7 @@ def register_user():
         return jsonify({"status":400,"error_msg":"Please provide a valid email"}),400
     """""""Check if json values are empty"""""""
     if not first_name or not second_name or not gender or not email or not password or not confirm_pwd:
-        return jsonify({"status":400,"error_msg":"All user's information is required to register"}),422
+        return jsonify({"status":400,"error_msg":"All user's information is required to register"}),400
     """""""Check if json values are valid"""""""
     if not validate_json_values.validate_json_string_value(first_name) or not validate_json_values.validate_json_string_value(second_name) or not validate_json_values.validate_json_string_value(email):
         return jsonify({"status":400,"error_msg":"Please provide user valid values"}),400
