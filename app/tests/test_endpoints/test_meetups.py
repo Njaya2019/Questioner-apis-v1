@@ -32,7 +32,7 @@ class TestCreateMeetUps():
         now=now.strftime("%Y-%m-%d %H:%M")
         response=cli_ent.post('/api/v1/admin/createmeetup',data=json.dumps(dict(meetup_title="python programming for beginners",meetup_description=None,location="Mombasa,Kenya",date_created=now)),content_type="application/json")
         data=json.loads(response.data)
-        assert response.status_code==422
+        assert response.status_code==400
         assert "Please fill all the meet up information" in data["error_msg"]
 
     """""""Instance method to test posted invalid values"""""""

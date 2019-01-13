@@ -14,7 +14,7 @@ def createmeetup():
     location=request.json['location']
     """""""Check if json values are empty"""""""
     if not meetup_title or not meetup_descrip or not location:
-        return jsonify({"status":422,"error_msg":"Please fill all the meet up information"}),422
+        return jsonify({"status":400,"error_msg":"Please fill all the meet up information"}),400
     """""""Check if json values are valid"""""""
     if not validate_json_values.validate_json_string_value(meetup_title) or not validate_json_values.validate_json_string_value(meetup_descrip) or not validate_json_values.validate_json_string_value(location):
         return jsonify({"status":400,"error_msg":"Please provide valid data"}),400
