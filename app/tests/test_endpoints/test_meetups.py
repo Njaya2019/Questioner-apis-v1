@@ -70,3 +70,18 @@ class TestGetMeetUps():
         data=json.loads(response.data)
         assert response.status_code==200
         assert data=={'Meetups':meetups_list}
+
+"""""""This class tests for response to an rsvp"""""""
+class TestRsvp():
+    """""""This test if a response if successfully submitted"""""""
+    def test_respond_rsvp(self,cli_ent):
+        response=cli_ent.post('/api/v1/user/meetups/1/rsvp',data=json.dumps(dict(user_id=1,rsvp_response="Yes")),content_type="application/json")
+        data=json.loads(response.data)
+        assert response.status_code==201
+        assert "Yes"==data["data"]["status"]
+    """""""When the meetup doesn't exist"""""""
+    def test_respond_rsvp_inexist_meetup(self,cli_ent):
+        response=cli_ent.post('/api/v1/user/meetups/2/rsvp',data=json.dumps(dict(user_id=1,rsvp_response="Yes")),content_type="application/json")
+        data=json.loads(response.data)
+        assert response.status_code==404
+        assert "The meetup no longer exists or doesn't exists"==data["error_msg"]
