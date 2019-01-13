@@ -34,6 +34,14 @@ class users_model():
             return isAdmin
         else:
             return False
-            
-        
-            
+    """""""A class method to sigin a user"""""""
+    @classmethod
+    def signin_user(cls,email,password):
+        for user in users_list:
+            if user["email"]==email:
+                stored_pwd=user["password"]
+                if check_password_hash(stored_pwd,password):
+                    return user
+                else:
+                    return "The user's password provided is incorrect"
+        return "The user's email provided doesn't exist"
