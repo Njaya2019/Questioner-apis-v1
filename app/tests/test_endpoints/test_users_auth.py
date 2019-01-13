@@ -65,7 +65,7 @@ class TestLoginUser():
     
     """""""This instance method test when user passes invalid email""""""" 
     def test_login_user_invalid_email(self,cli_ent):
-        response=cli_ent.post('/api/v1/login',data=json.dumps(dict(email="",password="")),content_type="application/json")
+        response=cli_ent.post('/api/v1/login',data=json.dumps(dict(email="jumamashagmail.com",password="1234")),content_type="application/json")
         data=json.loads(response.data)
         assert response.status_code==400
         assert data["error_msg"]=="Please provide a valid email"
