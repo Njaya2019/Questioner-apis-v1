@@ -47,4 +47,42 @@ class TestsUserRegistration():
         assert "Please provide a valid email" in data["error_msg"]
         assert 400==data["status"]
 
+class TestLoginUser():
+    """""""This instance method test for successful sign in of users""""""" 
+    def test_login_user(self,cli_ent):
+        response=cli_ent.post('/api/v1/login',data=json.dumps(dict(email="jumamasha@gmail.com",password="1234")),content_type="application/json")
+        data=json.loads(response.data)
+        assert response.status_code==200
+        assert data["user"]["user_firstname"]=="Juma"
+        assert data["user"]["user_secondname"]=="Masha"
+    
+    """""""This instance method test when user passes empty credentials""""""" 
+    def test_login_user_empty_values(self,cli_ent):
+        response=cli_ent.post('/api/v1/login',data=json.dumps(dict(email="",password="")),content_type="application/json")
+        data=json.loads(response.data)
+        assert response.status_code==400
+        assert data["error_msg"]=="Please fill both email and password to login"
+    
+    """""""This instance method test when user passes invalid email""""""" 
+    def test_login_user_invalid_email(self,cli_ent):
+        response=cli_ent.post('/api/v1/login',data=json.dumps(dict(email="",password="")),content_type="application/json")
+        data=json.loads(response.data)
+        assert response.status_code==400
+        assert data["error_msg"]=="Please provide a valid email"
+
+    """""""This instance method test when the email doesn't""""""" 
+    def test_login_user_email_notfound(self,cli_ent):
+        response=cli_ent.post('/api/v1/login',data=json.dumps(dict(email="yahyanyiro@gmail.com",password="1234")),content_type="application/json")
+        data=json.loads(response.data)
+        assert response.status_code==401
+        assert data["error_msg"]=="The user's email provided doesn't exist"
+    """""""This instance method test when the password in incorrect"""""""   
+    def test_login_user_password_incorrect(self,cli_ent):
+        response=cli_ent.post('/api/v1/login',data=json.dumps(dict(email="jumamasha@gmail.com",password="4321")),content_type="application/json")
+        data=json.loads(response.data)
+        assert response.status_code==401
+        assert data["error_msg"]=="The user's password provided is incorrect"
+    
+    
+
 
