@@ -1,5 +1,6 @@
 from flask import Blueprint,request,jsonify
 from models.meetups_model import meetups,meetups_list
+from models.rsvp_model import rsvp_model
 from validators.validate_json import validate_json_values
 
 """""""Initialize a flask blueprint of meetups"""""""
@@ -40,3 +41,14 @@ def get_all_meetups():
         return jsonify({"status":404,"error_msg":"There are no meetups yet"}),404   
     """""""Uses global list imported from meetups_model that holds all meetups"""""""
     return jsonify({"Meetups":meetups_list}), 200
+
+"""""""An endpoint to respond to an RSVP"""""""
+@meetups_blueprint.route("/api/v1/user/meetups/<int:meetup_id>/rsvp", methods=["GET","POST"])
+def respond_rsvp(meetup_id):
+    user_id=request.json["user_id"]
+    rsvp_user_response=request.json["rsvp_response"]
+    rsvp_obj=rsvp_model(user_id,rsvp_user_response)
+    user_response=rsvp_obj.rsvp_response_method(meetup_id)
+    if type(user_response)!=dict:
+        return jsonify({"status":404,"error_msg":user_response}),404
+    return jsonify({"status":201,"data":{"status":user_response["rsvp_response"],"topic":user_response["meetup_title"],"meetup_id":user_response["meetup_id"]}}),201
