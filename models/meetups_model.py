@@ -25,10 +25,10 @@ class meetups():
         Create a meetup and holds each meetup on a dictionary
         """
         meetup_dict={
-            "meetup_id":self.meetup_id,
-            "meetup_title":self.meetup_title,
-            "meetup_description":self.meetup_description,
-            "location":self.location,"date_created":self.date_created
+            "id":self.meetup_id,
+            "topic":self.meetup_title,
+            "description":self.meetup_description,
+            "location":self.location,"createdOn":self.date_created
             }
         meetups_list.append(meetup_dict)
         return meetup_dict
@@ -57,9 +57,9 @@ class meetups():
             return msg
         meetup_record=meetups_list[meetup_id-1]
         return {
-            "meetup_id":meetup_record["meetup_id"],
-            "meetup_title":meetup_record["meetup_title"],
-            "meetup_description":meetup_record["meetup_description"],
+            "id":meetup_record["id"],
+            "topic":meetup_record["topic"],
+            "description":meetup_record["description"],
             "location":meetup_record["location"],
-            "date_created":meetup_record["date_created"]
+            "createdOn":meetup_record["createdOn"]
             }

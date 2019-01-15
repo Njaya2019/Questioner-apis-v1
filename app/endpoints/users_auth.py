@@ -13,15 +13,16 @@ def register_user():
     An endpoint to register a user.
     First it gets the values from the user
     """
-    first_name=request.json['user_firstname']
-    second_name=request.json['user_secondname']
-    gender=request.json['user_gender']
-    email=request.json['user_email']
-    account_type=request.json['account_type']
+    first_name=request.json['firstname']
+    second_name=request.json['secondname']
+    othername=request.json['othername']
+    email=request.json['email']
+    username=request.json['username']
+    isAdmin=request.json['isAdmin']
+    phonenumber=request.json['phonenumber']
     password=request.json['password']
-    confirm_pwd=request.json['confirm_password']
+    confirm_pwd=request.json['confirmpassword']
     
-
     if not validate_json_values.validate_json_email_value(email):
         """Check if the email is valid
         """
@@ -29,7 +30,7 @@ def register_user():
             "status":400,
             "error_msg":"Please provide a valid email"
             }),400
-    if not validate_json_values.validate_json_string_value(first_name) or not validate_json_values.validate_json_string_value(second_name) or not validate_json_values.validate_json_string_value(email):
+    if not validate_json_values.validate_json_string_value(first_name) or not validate_json_values.validate_json_string_value(othername) or not validate_json_values.validate_json_string_value(username) or not validate_json_values.validate_json_string_value(second_name) or not validate_json_values.validate_json_string_value(email):
         """
         Check if json values are valid
         """
@@ -44,9 +45,13 @@ def register_user():
         """
         first_name=first_name.strip()
         second_name=second_name.strip()
-        gender=gender.strip()
+        othername=othername.strip()
         email=email.strip()
-        if not first_name or not second_name or not gender or not email or not password or not confirm_pwd:
+        username=username.strip()
+        username=email.strip()
+        isAdmin=isAdmin.strip()
+        phonenumber=phonenumber.strip()
+        if not first_name or not username or not second_name or not othername or not email or not isAdmin or not password or not confirm_pwd:
             """
             Check if json values are empty
             """
@@ -57,7 +62,7 @@ def register_user():
         """
         If all checkouts well then add user
         """
-        user_obj=users_model(first_name,second_name,gender,email,account_type,password,confirm_pwd)
+        user_obj=users_model(first_name,second_name,othername,email,username,isAdmin,phonenumber,password,confirm_pwd)
         user_data=user_obj.register_user()
         if type(user_data)!=dict:
             return jsonify({
@@ -111,9 +116,10 @@ def login_user():
         """
         If the email and password are correct then generate token
         """
-        token=jwt.encode({"user_id":current_user["user_id"],"exp":datetime.datetime.utcnow()+datetime.timedelta(minutes=30)},'secret',algorithm='HS256')
+        token=jwt.encode({"id":current_user["id"],"exp":datetime.datetime.utcnow()+datetime.timedelta(minutes=30)},'secret',algorithm='HS256')
         return jsonify({
             'token':token.decode('UTF-8'),
             "data":{
-                "user_firstname":current_user["user_firstname"],
-                "user_secondname":current_user["user_secondname"]}}), 200
+                "email":current_user["email"],
+                "isAdmin":current_user["isAdmin"]
+                }}), 200

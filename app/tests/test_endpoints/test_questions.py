@@ -24,31 +24,30 @@ class TestCreateQuestion():
         now=datetime.datetime.now()
         now=now.strftime("%Y-%m-%d %H:%M")
         response=cli_ent.post(
-            '/api/v1/user/createquestion',
+            '/api/v1/user/questions',
             data=json.dumps(dict(
-                question_title="Access a value after an update query in postgresql",
-                qusetion_description="I want to display the values to a user after they have updated instead of just an update message",
-                user_id=1,
-                meetup_id=1,
-                date_created=now
+                title="Access a value after an update query in postgresql",
+                body="I want to display the values to a user after they have updated instead of just an update message",
+                userid=1,
+                meetupid=1
                 )),content_type="application/json")
         data=json.loads(response.data)
         assert response.status_code==201
-        assert 1==data["data"]["question_id"]
-        assert "Access a value after an update query in postgresql" in data["data"]["question_title"]
-        assert "I want to display the values to a user after they have updated instead of just an update message" in data["data"]["question_description"]
+        assert 1==data["data"]["userid"]
+        assert "Access a value after an update query in postgresql" in data["data"]["title"]
+        assert "I want to display the values to a user after they have updated instead of just an update message" in data["data"]["body"]
 
     def test_createquestion_empty_value(self,cli_ent):
         """
         This tests if one of the values wasn't provided.
         """
         response=cli_ent.post(
-            '/api/v1/user/createquestion',
+            '/api/v1/user/questions',
             data=json.dumps(dict(
-                question_title="Access a value after an update query in postgresql",
-                qusetion_description=" ",
-                user_id=1,
-                meetup_id=1
+                title="Access a value after an update query in postgresql",
+                body=" ",
+                userid=1,
+                meetupid=1
                 )),content_type="application/json")
         data=json.loads(response.data)
         assert response.status_code==400
@@ -60,12 +59,12 @@ class TestCreateQuestion():
         This tests if the values are invalid. An integer instead of a string.
         """
         response=cli_ent.post(
-            '/api/v1/user/createquestion',
+            '/api/v1/user/questions',
             data=json.dumps(dict(
-                question_title="Access a value after an update query in postgresql",
-                qusetion_description="I want to display the values to a user after they have updated instead of just an update message",
-                user_id="1",
-                meetup_id=1
+                title="Access a value after an update query in postgresql",
+                body="I want to display the values to a user after they have updated instead of just an update message",
+                userid="1",
+                meetupid=1
                 )),content_type="application/json")
         data=json.loads(response.data)
         assert response.status_code==400

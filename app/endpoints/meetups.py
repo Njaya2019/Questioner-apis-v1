@@ -6,13 +6,13 @@ from validators.validate_json import validate_json_values
 meetups_blueprint=Blueprint("meetups",__name__)        #Initialize a flask blueprint of meetups
 
 
-@meetups_blueprint.route("/api/v1/admin/createmeetup", methods=["POST"])
+@meetups_blueprint.route("/api/v1/admin/meetups", methods=["POST"])
 def createmeetup():
     
     """An endpoint to create a meetup
     """
-    meetup_title=request.json['meetup_title']
-    meetup_descrip=request.json['meetup_description']
+    meetup_title=request.json['topic']
+    meetup_descrip=request.json['description']
     location=request.json['location']
 
     if not validate_json_values.validate_json_string_value(meetup_title) or not validate_json_values.validate_json_string_value(meetup_descrip) or not validate_json_values.validate_json_string_value(location):
@@ -81,15 +81,15 @@ def respond_rsvp(meetup_id):
     
     """An endpoint to respond to an RSVP
     """
-    user_id=request.json["user_id"]
-    rsvp_user_response=request.json["rsvp_response"].strip()
+    user_id=request.json["userid"]
+    rsvp_user_response=request.json["RSVPresponse"].strip()
     rsvp_obj=rsvp_model(user_id,rsvp_user_response)
     user_response=rsvp_obj.rsvp_response_method(meetup_id)
     if type(user_response)!=dict:
         return jsonify({"status":404,"error_msg":user_response}),404
     return jsonify({
         "status":201,
-        "data":{"status":user_response["rsvp_response"],
-                "topic":user_response["meetup_title"],
-                "meetup_id":user_response["meetup_id"]}
+        "data":{"status":user_response["RSVPresponse"],
+                "topic":user_response["meetuptopic"],
+                "meetupid":user_response["meetupid"]}
                 }),201

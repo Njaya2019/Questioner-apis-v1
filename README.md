@@ -8,13 +8,17 @@ The api has the following endpoints:-
 
 | Endpoints                                     | Request       | function       |
 | ------------------------                      | ------------- |----------------|
-|/api/v1/admin//api/v1/admin/createmeetup       | POST          | Create a meetup|
+|/api/v1/admin//api/v1/admin/meetups            | POST          | Create a meetup|
 | /api/v1/admin/meetups/<meetupid>              | GET           | get a  meetup  |
 | /api/v1/admin/meetups                         | GET           | get all meetups|
-| /api/v1/user/createquestion                   | POST          | ask question   |
+| /api/v1/user/questions                        | POST          | ask question   |
 | /api/v1/user/question/<int:question_id>/upvote| PATCH         | upvote         |
 | /api/v1/user/question/<int:question_id>/downvote| PATCH       | downvote       |
+| /api/v1/user/meetups/1/rsvp                   | POST          | RSVP           |
+| /api/v1/login                                 | POST          | Login          |
+| /api/v1/registration                          | POST          | Sign up        |
 
+api/v1/user/meetups/1/rsvp
 ## Technologies
 The project is created with
 ```
