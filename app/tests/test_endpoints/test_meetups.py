@@ -23,17 +23,16 @@ class TestCreateMeetUps():
         now=datetime.datetime.now()
         now=now.strftime("%Y-%m-%d %H:%M")
         response=cli_ent.post(
-            '/api/v1/admin/createmeetup',
+            '/api/v1/admin/meetups',
             data=json.dumps(
                 dict(
-                    meetup_title="python programming for beginners",
-                    meetup_description="We started this to help each other.Regardless of your experince just join us share and learn.Welcome!",
-                    location="Mombasa,Kenya",
-                    date_created=now
+                    topic="python programming for beginners",
+                    description="We started this to help each other.Regardless of your experince just join us share and learn.Welcome!",
+                    location="Mombasa,Kenya"
                     )),content_type="application/json")
         data=json.loads(response.data)
         assert response.status_code==201
-        assert "python programming for beginners"==data["data"]["meetup_title"]
+        assert "python programming for beginners"==data["data"]["topic"]
 
     def test_createmeetup_empty_value(self,cli_ent):
         """Instance method to test empty posted values.
@@ -43,12 +42,12 @@ class TestCreateMeetUps():
         now=datetime.datetime.now()
         now=now.strftime("%Y-%m-%d %H:%M")
         response=cli_ent.post(
-            '/api/v1/admin/createmeetup',
+            '/api/v1/admin/meetups',
             data=json.dumps(
                 dict(
-                    meetup_title="python programming for beginners",
-                    meetup_description=" ",
-                    location="Mombasa,Kenya",date_created=now
+                    topic="python programming for beginners",
+                    description=" ",
+                    location="Mombasa,Kenya"
                     )),content_type="application/json")
         data=json.loads(response.data)
         assert response.status_code==400
@@ -62,12 +61,11 @@ class TestCreateMeetUps():
         now=datetime.datetime.now()
         now=now.strftime("%Y-%m-%d %H:%M")
         response=cli_ent.post(
-            '/api/v1/admin/createmeetup',
+            '/api/v1/admin/meetups',
             data=json.dumps(dict(
-                meetup_title="python programming for beginners",
-                meetup_description=1234,
-                location="Mombasa,Kenya",
-                date_created=now
+                topic="python programming for beginners",
+                description=1234,
+                location="Mombasa,Kenya"
                 )),content_type="application/json")
         data=json.loads(response.data)
         assert response.status_code==400
@@ -82,7 +80,7 @@ class TestGetMeetUps():
         response=cli_ent.get('/api/v1/admin/meetups/'+str(1))
         data=json.loads(response.data)
         assert response.status_code==200
-        assert data["data"]["meetup_title"]=="python programming for beginners"
+        assert data["data"]["topic"]=="python programming for beginners"
 
     def test_get_a_meetup_record_notfound(self,cli_ent):
         """
@@ -112,8 +110,8 @@ class TestRsvp():
         response=cli_ent.post(
             '/api/v1/user/meetups/1/rsvp',
             data=json.dumps(dict(
-                user_id=1,
-                rsvp_response="Yes"
+                userid=1,
+                RSVPresponse="Yes"
                 )),content_type="application/json")
         data=json.loads(response.data)
         assert response.status_code==201
@@ -125,8 +123,8 @@ class TestRsvp():
         response=cli_ent.post(
             '/api/v1/user/meetups/2/rsvp',
             data=json.dumps(dict(
-                user_id=1,
-                rsvp_response="Yes"
+                userid=1,
+                RSVPresponse="Yes"
                 )),content_type="application/json")
         data=json.loads(response.data)
         assert response.status_code==404

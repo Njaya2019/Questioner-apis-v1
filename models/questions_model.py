@@ -28,18 +28,19 @@ class questionsmodel():
             title and description
         """
         question_dict={
-            "question_id":self.question_id,
-            "question_title":self.question_title,
-            "question_description":self.question_description,
-            "user_id":self.user_id,"meetup_id":self.meetup_id,
-            "date_created":self.date_asked,
+            "id":self.question_id,
+            "title":self.question_title,
+            "body":self.question_description,
+            "userid":self.user_id,"meetupid":self.meetup_id,
+            "createdOn":self.date_asked,
             "votes":votes
             }
         questions_list.append(question_dict)
         return {
-            "question_id":self.question_id,
-            "question_title":self.question_title,
-            "question_description":self.question_description
+            "userid":self.user_id,
+            "title":self.question_title,
+            "body":self.question_description,
+            "meetupid":self.meetup_id
             }
 
     @classmethod
@@ -59,9 +60,9 @@ class questionsmodel():
         question_upvote=questions_list[question_id-1]
         question_upvote.update({"votes":votes})
         return {
-            "meetup_id":question_upvote['meetup_id'],
-            "question_title":question_upvote['question_title'],
-            "question_description":question_upvote['question_description'],
+            "meetupid":question_upvote['meetupid'],
+            "title":question_upvote['title'],
+            "body":question_upvote['body'],
             "votes":question_upvote['votes']
             }
     @classmethod
@@ -80,8 +81,8 @@ class questionsmodel():
         question_downvote=questions_list[question_id-1]
         question_downvote.update({"votes":votes})
         return {
-            "meetup_id":question_downvote['meetup_id'],
-            "question_title":question_downvote['question_title'],
-            "question_description":question_downvote['question_description'],
+            "meetupid":question_downvote['meetupid'],
+            "title":question_downvote['title'],
+            "body":question_downvote['body'],
             "votes":question_downvote['votes']
             }

@@ -7,12 +7,14 @@ class users_model():
     """
     A class that has instance variables and class methods
     """
-    def __init__(self,first_name,second_name,gender,email,account_type,password,confirm_pwd):
+    def __init__(self,first_name,second_name,othername,email,username,isAdmin,phonenumber,password,confirm_pwd):
         self.first_name=first_name
         self.second_name=second_name
-        self.gender=gender
+        self.othername=othername
         self.email=email
-        self.account_type=account_type
+        self.username=username
+        self.isAdmin=isAdmin
+        self.phonenumber=phonenumber
         self.password=password
         self.confirm_pwd=confirm_pwd
         self.user_id=len(users_list)+1
@@ -25,30 +27,22 @@ class users_model():
         for user in users_list:
             if user['email']==self.email:
                 return "The email already exists. Choose another email"
-        account=users_model.acconttype_to_boolean(self.account_type)
         hashed_password=generate_password_hash(self.password)
         users_dict={
-            "user_id":self.user_id,'user_firstname':self.first_name,
-            'user_secondname':self.second_name,'isAdmin':account,
-            'user_gender':self.gender,'email':self.email,
+            "id":self.user_id,'firstname':self.first_name,
+            'secondname':self.second_name,'othername':self.othername,
+            'isAdmin':self.isAdmin,'email':self.email,
+            "phonenumber":self.phonenumber,"username":self.username,
             'password':hashed_password
             }
         users_list.append(users_dict)
         return {
-            "user_id":self.user_id,'user_firstname':self.first_name,
-            'user_secondname':self.second_name,'isAdmin':account,
-            'user_gender':self.gender,'email':self.email,
+            "id":self.user_id,'firstname':self.first_name,
+            'secondname':self.second_name,'othername':self.othername,
+            'isAdmin':self.isAdmin,'email':self.email,
+            "username":self.username,"phonenumber":self.phonenumber
             }
-    @classmethod
-    def acconttype_to_boolean(cls,accounttype):
-        """
-        A class method to convert user account type to boolean
-        """
-        if accounttype=='Admin':
-            isAdmin=True
-            return isAdmin
-        else:
-            return False
+
     @classmethod
     def signin_user(cls,email,password):
         """

@@ -22,11 +22,11 @@ class rsvp_model():
         if not meetups_list:
             return "The meetup no longer exists or doesn't exists"
         rsvp_meetup=meetups_list[meetup_id-1]
-        rsvp_meetup_topic=rsvp_meetup["meetup_title"]
+        rsvp_meetup_topic=rsvp_meetup["topic"]
         rsvp={
-            "rsvp_id":self.rsvp_id,"meetup_id":meetup_id,
-            "meetup_title":rsvp_meetup_topic,"user_id":self.user_id,
-            "rsvp_response":self.rsvp_response
+            "id":self.rsvp_id,"meetupid":meetup_id,
+            "meetuptopic":rsvp_meetup_topic,"userid":self.user_id,
+            "RSVPresponse":self.rsvp_response
             }
         rsvp_list.append(rsvp)
         return rsvp

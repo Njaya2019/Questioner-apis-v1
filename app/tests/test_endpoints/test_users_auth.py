@@ -19,20 +19,19 @@ class TestsUserRegistration():
         """
         response=cli_ent.post('/api/v1/registration',
             data=json.dumps(dict(
-                user_firstname="Juma",
-                user_secondname="Masha",
-                user_gender="Male",
-                user_email="jumamasha@gmail.com",
-                account_type="Admin",password="1234",
-                confirm_password="1234"
+                firstname="Juma",secondname="Masha",
+                othername="Karisa",email="jumamasha@gmail.com",
+                username="Juma",isAdmin="True",
+                phonenumber="0727645367",password="1234",
+                confirmpassword="1234"
                 )),content_type="application/json")
         data=json.loads(response.data)
         assert response.status_code==201
-        assert 1==data["data"]["user_id"]
-        assert "Juma"==data["data"]["user_firstname"]
-        assert "Masha"==data["data"]["user_secondname"]
-        assert "Male"==data["data"]["user_gender"]
-        assert True==data["data"]["isAdmin"]
+        assert 1==data["data"]["id"]
+        assert "Juma"==data["data"]["firstname"]
+        assert "Masha"==data["data"]["secondname"]
+        assert "Karisa"==data["data"]["othername"]
+        assert "True"==data["data"]["isAdmin"]
 
     def test_register_user_empty_values(self,cli_ent):
         """
@@ -40,13 +39,11 @@ class TestsUserRegistration():
         """
         response=cli_ent.post('/api/v1/registration',
             data=json.dumps(dict(
-                user_firstname=" ",
-                user_secondname=" ",
-                user_gender="Male",
-                user_email="jumamasha@gmail.com",
-                account_type="Admin",
-                password="1234",
-                confirm_password="1234"
+                firstname="  ",secondname="  ",
+                othername="Karisa",email="jumamasha@gmail.com",
+                username="Juma",isAdmin="True",
+                phonenumber="0727645367",password="1234",
+                confirmpassword="1234"
                 )),content_type="application/json")
         data=json.loads(response.data)
         assert response.status_code==400
@@ -58,13 +55,11 @@ class TestsUserRegistration():
         """
         response=cli_ent.post('/api/v1/registration',
         data=json.dumps(dict(
-            user_firstname=1,
-            user_secondname=1234,
-            user_gender="Male",
-            user_email="jumamasha@gmail.com",
-            account_type="Admin",
-            password="1234",
-            confirm_password="1234"
+                firstname=1234,secondname=1234,
+                othername="Karisa",email="jumamasha@gmail.com",
+                username="Juma",isAdmin="True",
+                phonenumber="0727645367",password="1234",
+                confirmpassword="1234"
             )),content_type="application/json")
         data=json.loads(response.data)
         assert response.status_code==400
@@ -74,13 +69,11 @@ class TestsUserRegistration():
     def test_register_user_invalid_email(self,cli_ent):
         response=cli_ent.post('/api/v1/registration',
             data=json.dumps(dict(
-                user_firstname="Willy",
-                user_secondname="Mzae",
-                user_gender="Male",
-                user_email="willymzaegmail.com",
-                account_type="Admin",
-                password="1234",
-                confirm_password="1234"
+                firstname="Juma",secondname="Masha",
+                othername="Karisa",email="jumamashagmail.com",
+                username="Juma",isAdmin=True,
+                phonenumber="0727645367",password="1234",
+                confirmpassword="1234"
                 )),content_type="application/json")
         data=json.loads(response.data)
         assert response.status_code==400
@@ -100,8 +93,8 @@ class TestLoginUser():
                 )),content_type="application/json")
         data=json.loads(response.data)
         assert response.status_code==200
-        assert data["data"]["user_firstname"]=="Juma"
-        assert data["data"]["user_secondname"]=="Masha"
+        assert data["data"]["email"]=="jumamasha@gmail.com"
+        assert data["data"]["isAdmin"]=="True"
     
     def test_login_user_empty_values(self,cli_ent):
         """
