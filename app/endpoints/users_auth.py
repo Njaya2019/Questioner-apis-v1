@@ -7,7 +7,7 @@ import jwt, datetime
 
 userauth_blueprint=Blueprint("users",__name__)
 
-@userauth_blueprint.route("/api/v1/registration", methods=["GET","POST"])
+@userauth_blueprint.route("/api/v1/registration", methods=["POST"])
 def register_user():
     """
     An endpoint to register a user.
@@ -67,7 +67,7 @@ def register_user():
         return jsonify({"status":201,"data":user_data}),201
 
 
-@userauth_blueprint.route("/api/v1/login", methods=["GET","POST"])
+@userauth_blueprint.route("/api/v1/login", methods=["POST"])
 def login_user():
     
     """

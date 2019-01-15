@@ -5,7 +5,7 @@ from models.questions_model import questionsmodel
 
 questions_blueprint=Blueprint("questions",__name__)        #Initialize a flask blueprint for questions
 
-@questions_blueprint.route("/api/v1/user/createquestion", methods=["GET","POST"])
+@questions_blueprint.route("/api/v1/user/createquestion", methods=["POST"])
 def createquestion():
     """An endpoint to ask a question
     """
