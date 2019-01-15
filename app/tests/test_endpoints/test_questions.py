@@ -24,7 +24,7 @@ class TestCreateQuestion():
         now=datetime.datetime.now()
         now=now.strftime("%Y-%m-%d %H:%M")
         response=cli_ent.post(
-            '/api/v1/user/questions',
+            '/api/v1/questions',
             data=json.dumps(dict(
                 title="Access a value after an update query in postgresql",
                 body="I want to display the values to a user after they have updated instead of just an update message",
@@ -42,7 +42,7 @@ class TestCreateQuestion():
         This tests if one of the values wasn't provided.
         """
         response=cli_ent.post(
-            '/api/v1/user/questions',
+            '/api/v1/questions',
             data=json.dumps(dict(
                 title="Access a value after an update query in postgresql",
                 body=" ",
@@ -59,7 +59,7 @@ class TestCreateQuestion():
         This tests if the values are invalid. An integer instead of a string.
         """
         response=cli_ent.post(
-            '/api/v1/user/questions',
+            '/api/v1/questions',
             data=json.dumps(dict(
                 title="Access a value after an update query in postgresql",
                 body="I want to display the values to a user after they have updated instead of just an update message",
@@ -79,7 +79,7 @@ class TestVoteQuestion():
         Tests if the enpoint can implement an up-vote on a question
         """
         response=cli_ent.patch(
-            '/api/v1/user/question/1/upvote',
+            '/api/v1/questions/1/upvote',
             content_type="application/json")
         data=json.loads(response.data)
         assert response.status_code==200
@@ -90,7 +90,7 @@ class TestVoteQuestion():
         Tests if the enpoint would reject an up-vote
           to question that doesn't exist
         """
-        response=cli_ent.patch('/api/v1/user/question/2/upvote',content_type="application/json")
+        response=cli_ent.patch('/api/v1/questions/2/upvote',content_type="application/json")
         data=json.loads(response.data)
         assert response.status_code==403
         assert data['error']=='Forbidden. The question doesn\'t exist'
@@ -99,7 +99,7 @@ class TestVoteQuestion():
         """
         Tests if the enpoint can implement an downvote-vote on a question
         """
-        response=cli_ent.patch('/api/v1/user/question/1/downvote',content_type="application/json")
+        response=cli_ent.patch('/api/v1/questions/1/downvote',content_type="application/json")
         data=json.loads(response.data)
         assert response.status_code==200
         assert data['data']["votes"]==0
@@ -109,7 +109,7 @@ class TestVoteQuestion():
         Tests if the enpoint would reject an down-vote
           to question that doesn't exist
         """
-        response=cli_ent.patch('/api/v1/user/question/2/downvote',content_type="application/json")
+        response=cli_ent.patch('/api/v1/questions/2/downvote',content_type="application/json")
         data=json.loads(response.data)
         assert response.status_code==403
         assert data['error']=='Forbidden. The question doesn\'t exist'

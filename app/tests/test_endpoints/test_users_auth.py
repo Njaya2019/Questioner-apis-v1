@@ -17,10 +17,10 @@ class TestsUserRegistration():
         This test if the enpoint registers a user and returns a user id,
         first name and second name.
         """
-        response=cli_ent.post('/api/v1/registration',
+        response=cli_ent.post('/api/v1/signup',
             data=json.dumps(dict(
-                firstname="Juma",secondname="Masha",
-                othername="Karisa",email="jumamasha@gmail.com",
+                firstname="Juma",lastname="Masha",
+                email="jumamasha@gmail.com",
                 username="Juma",isAdmin="True",
                 phonenumber="0727645367",password="1234",
                 confirmpassword="1234"
@@ -29,18 +29,17 @@ class TestsUserRegistration():
         assert response.status_code==201
         assert 1==data["data"]["id"]
         assert "Juma"==data["data"]["firstname"]
-        assert "Masha"==data["data"]["secondname"]
-        assert "Karisa"==data["data"]["othername"]
+        assert "Masha"==data["data"]["lastname"]
         assert "True"==data["data"]["isAdmin"]
 
     def test_register_user_empty_values(self,cli_ent):
         """
         This intance method tests if user values passed are empty
         """
-        response=cli_ent.post('/api/v1/registration',
+        response=cli_ent.post('/api/v1/signup',
             data=json.dumps(dict(
-                firstname="  ",secondname="  ",
-                othername="Karisa",email="jumamasha@gmail.com",
+                firstname="  ",lastname="  ",
+                email="jumamasha@gmail.com",
                 username="Juma",isAdmin="True",
                 phonenumber="0727645367",password="1234",
                 confirmpassword="1234"
@@ -53,10 +52,10 @@ class TestsUserRegistration():
         """
         This instance method tests if the user values passed are valid
         """
-        response=cli_ent.post('/api/v1/registration',
+        response=cli_ent.post('/api/v1/signup',
         data=json.dumps(dict(
-                firstname=1234,secondname=1234,
-                othername="Karisa",email="jumamasha@gmail.com",
+                firstname=1234,lastname=1234,
+                email="jumamasha@gmail.com",
                 username="Juma",isAdmin="True",
                 phonenumber="0727645367",password="1234",
                 confirmpassword="1234"
@@ -67,10 +66,10 @@ class TestsUserRegistration():
         assert 400==data["status"]
 
     def test_register_user_invalid_email(self,cli_ent):
-        response=cli_ent.post('/api/v1/registration',
+        response=cli_ent.post('/api/v1/signup',
             data=json.dumps(dict(
-                firstname="Juma",secondname="Masha",
-                othername="Karisa",email="jumamashagmail.com",
+                firstname="Juma",lastname="Masha",
+                email="jumamashagmail.com",
                 username="Juma",isAdmin=True,
                 phonenumber="0727645367",password="1234",
                 confirmpassword="1234"
@@ -93,7 +92,8 @@ class TestLoginUser():
                 )),content_type="application/json")
         data=json.loads(response.data)
         assert response.status_code==200
-        assert data["data"]["email"]=="jumamasha@gmail.com"
+        assert data["data"]["firstname"]=="Juma"
+        assert data["data"]["username"]=="Juma"
         assert data["data"]["isAdmin"]=="True"
     
     def test_login_user_empty_values(self,cli_ent):

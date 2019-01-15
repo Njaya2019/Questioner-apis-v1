@@ -6,7 +6,7 @@ from validators.validate_json import validate_json_values
 meetups_blueprint=Blueprint("meetups",__name__)        #Initialize a flask blueprint of meetups
 
 
-@meetups_blueprint.route("/api/v1/admin/meetups", methods=["POST"])
+@meetups_blueprint.route("/api/v1/meetups", methods=["POST"])
 def createmeetup():
     
     """An endpoint to create a meetup
@@ -44,7 +44,7 @@ def createmeetup():
         meetup_data=meetup_obj.add_meetup()
         return jsonify({"status":201,"data":meetup_data}),201
 
-@meetups_blueprint.route("/api/v1/admin/meetups/<int:meetup_id>", methods=["GET"])
+@meetups_blueprint.route("/api/v1/meetups/<int:meetup_id>", methods=["GET"])
 def get_a_meetup_record(meetup_id):
     
     """An endpoint to get a specifi meetup record
@@ -60,7 +60,7 @@ def get_a_meetup_record(meetup_id):
             }), 200
     return jsonify({"status":404,"error_msg":meetup_record}),404
 
-@meetups_blueprint.route("/api/v1/admin/meetups", methods=["GET"])
+@meetups_blueprint.route("/api/v1/meetups", methods=["GET"])
 def get_all_meetups():
     
     """An endpoint to get all meetups 
@@ -76,7 +76,7 @@ def get_all_meetups():
     """
     return jsonify({'status':200,"data":meetups_list}), 200
 
-@meetups_blueprint.route("/api/v1/user/meetups/<int:meetup_id>/rsvp", methods=["POST"])
+@meetups_blueprint.route("/api/v1/meetups/<int:meetup_id>/rsvp", methods=["POST"])
 def respond_rsvp(meetup_id):
     
     """An endpoint to respond to an RSVP
