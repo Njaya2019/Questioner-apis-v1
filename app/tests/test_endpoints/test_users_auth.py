@@ -25,8 +25,8 @@ class TestsUserRegistration():
                 confirmpassword="1234"
                 )),content_type="application/json")
         data=json.loads(response.data)
-        assert response.status_code==500
-        assert "One of the json key is missing"==data["error_msg"]
+        assert response.status_code==400
+        assert "firstname, lastname,email,username,isAdmin,phonenumber,password or confirmpassword key is missing"==data["error_msg"]
 
     def test_register_user(self,cli_ent):
         """This instance method test for successful registration of users.
@@ -62,7 +62,7 @@ class TestsUserRegistration():
                 )),content_type="application/json")
         data=json.loads(response.data)
         assert response.status_code==400
-        assert "All user's information is required to register" in data["error_msg"]
+        assert "firstname, lastname,email,username,isAdmin,phonenumber,password and confirmpassword must have values" in data["error_msg"]
 
     def test_register_user_invalid_values(self,cli_ent):
         """
@@ -78,7 +78,7 @@ class TestsUserRegistration():
             )),content_type="application/json")
         data=json.loads(response.data)
         assert response.status_code==400
-        assert "Please provide user valid values" in data["error_msg"]
+        assert "firstname, lastname,email,username,isAdmin,phonenumber,password and confirmpassword valuesa must be all strings" in data["error_msg"]
         assert 400==data["status"]
 
     def test_register_user_invalid_email(self,cli_ent):
@@ -86,13 +86,13 @@ class TestsUserRegistration():
             data=json.dumps(dict(
                 firstname="Juma",lastname="Masha",
                 email="jumamashagmail.com",
-                username="Juma",isAdmin=True,
+                username="Juma",isAdmin="True",
                 phonenumber="0727645367",password="1234",
                 confirmpassword="1234"
                 )),content_type="application/json")
         data=json.loads(response.data)
         assert response.status_code==400
-        assert "Please provide a valid email" in data["error_msg"]
+        assert "The email provided is an invalid email. provide a valid email" in data["error_msg"]
         assert 400==data["status"]
 
 class TestLoginUser():
@@ -105,8 +105,8 @@ class TestLoginUser():
                 email="jumamasha@gmail.com",
                 )),content_type="application/json")
         data=json.loads(response.data)
-        assert response.status_code==500
-        assert "One of the json key is missing" in data["error_msg"]
+        assert response.status_code==400
+        assert "email or password key is missing. please provide it" in data["error_msg"]
     
     def test_login_user(self,cli_ent):
         """
@@ -134,7 +134,7 @@ class TestLoginUser():
                 )),content_type="application/json")
         data=json.loads(response.data)
         assert response.status_code==400
-        assert data["error_msg"]=="Please fill both email and password to login"
+        assert data["error_msg"]=="Both email and password values are required to login"
     
     def test_login_user_invalid_email(self,cli_ent):
         """
@@ -147,7 +147,7 @@ class TestLoginUser():
                 )),content_type="application/json")
         data=json.loads(response.data)
         assert response.status_code==400
-        assert data["error_msg"]=="Please provide a valid email"
+        assert data["error_msg"]=="The email provided is not a valid email. please provide a valid email"
  
     def test_login_user_email_notfound(self,cli_ent):
         """
@@ -160,7 +160,7 @@ class TestLoginUser():
                 )),content_type="application/json")
         data=json.loads(response.data)
         assert response.status_code==401
-        assert data["error_msg"]=="The user's email provided doesn't exist"
+        assert data["error_msg"]=="The email provided is doesn't exist. please check the email and try again"
       
     def test_login_user_password_incorrect(self,cli_ent):
         """
@@ -173,4 +173,4 @@ class TestLoginUser():
                 )),content_type="application/json")
         data=json.loads(response.data)
         assert response.status_code==401
-        assert data["error_msg"]=="The user's password provided is incorrect"
+        assert data["error_msg"]=="The user's password provided is incorrect. provide the correct password to login"

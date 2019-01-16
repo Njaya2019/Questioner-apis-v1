@@ -1,4 +1,5 @@
 import datetime
+from models.meetups_model import meetups
 
 questions_list=[]        #Initialized a global list to hold all questions
 
@@ -7,12 +8,12 @@ votes=0        #makes votes variable a global variable
 class questionsmodel():
     
     """
-    A class model of questions
+        A class model of questions
     """
     
     def __init__(self,question_title,question_description,user_id,meetup_id):
         """
-        Create instance variables of class questionsmodel
+            Create instance variables of class questionsmodel
         """
         self.question_title=question_title
         self.question_description=question_description
@@ -24,36 +25,42 @@ class questionsmodel():
         self.question_id=len(questions_list)+1
 
     def ask_question(self):
-        """An intance method to ask a question and returnit's id,
+        """
+            An intance method to ask a question and returnit's id,
             title and description
         """
-        question_dict={
-            "id":self.question_id,
-            "title":self.question_title,
-            "body":self.question_description,
-            "userid":self.user_id,"meetupid":self.meetup_id,
-            "createdOn":self.date_asked,
-            "votes":votes
-            }
-        questions_list.append(question_dict)
-        return {
-            "userid":self.user_id,
-            "title":self.question_title,
-            "body":self.question_description,
-            "meetupid":self.meetup_id
-            }
+        meetup_exists=meetups.get_a_meetup(self.meetup_id)
+        if type(meetup_exists)!=dict:
+            return meetup_exists
+        else:
+            question_dict={
+                "id":self.question_id,
+                "title":self.question_title,
+                "body":self.question_description,
+                "userid":self.user_id,"meetupid":self.meetup_id,
+                "createdOn":self.date_asked,
+                "votes":votes
+                }
+            questions_list.append(question_dict)
+            return {
+                "userid":self.user_id,
+                "title":self.question_title,
+                "body":self.question_description,
+                "meetupid":self.meetup_id
+                }
 
     @classmethod
     def up_vote_question(cls,question_id):
-        """A class method to vote upvote on a question 
+        """
+            A class method to vote upvote on a question 
             by increamenting votes variable by 1
         """
         if question_id > len(questions_list):
-            return "Forbidden. The question doesn\'t exist"
+            return "The question no longer exists or doesn\'t exist at all"
         if not questions_list:
-            return "Forbidden. The question doesn\'t exist"
+            return "The question no longer exists or doesn\'t exist at all"
         """
-        gets the question and upvotes it
+            gets the question and upvotes it
         """
         global votes
         votes=votes+1
@@ -67,14 +74,16 @@ class questionsmodel():
             }
     @classmethod
     def down_vote_question(cls,question_id):
-        """A class method to down vote on a question 
-            by decreamenting votes variable by 1"""
-        if question_id > len(questions_list):
-            return "Forbidden. The question doesn\'t exist"
-        if not questions_list:
-            return "Forbidden. The question doesn\'t exist"
         """
-        gets the question and downvotes it
+            A class method to down vote on a question 
+            by decreamenting votes variable by 1
+        """
+        if question_id > len(questions_list):
+            return "The question no longer exists or doesn\'t exist at all"
+        if not questions_list:
+            return "The question no longer exists or doesn\'t exist at all"
+        """
+            gets the question and downvotes it
         """
         global votes
         votes=votes-1

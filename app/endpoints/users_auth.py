@@ -11,8 +11,8 @@ userauth_blueprint=Blueprint("users",__name__)
 def register_user():
     
     """
-    An endpoint to register a user.
-    First it gets the values from the user
+        An endpoint to register a user.
+        First it gets the values from the user
     """
     user_json_dict=request.get_json()  
 
@@ -24,9 +24,9 @@ def register_user():
 
     if not all(json_key in user_json_dict for json_key in user_keys_list):    
         return jsonify({
-            "status":500,
-            "error_msg":"One of the json key is missing"
-            }),500
+            "status":400,
+            "error_msg":"firstname, lastname,email,username,isAdmin,phonenumber,password or confirmpassword key is missing"
+            }),400
 
     first_name=user_json_dict['firstname']
     last_name=user_json_dict['lastname']
@@ -42,7 +42,7 @@ def register_user():
         """
         return jsonify({
             "status":400,
-            "error_msg":"Please provide a valid email"
+            "error_msg":"The email provided is an invalid email. provide a valid email"
             }),400
     if not validate_json_values.validate_json_string_value(first_name) or not validate_json_values.validate_json_string_value(last_name) or not validate_json_values.validate_json_string_value(username) or not validate_json_values.validate_json_string_value(isAdmin) or not validate_json_values.validate_json_string_value(email):
         """
@@ -50,7 +50,7 @@ def register_user():
         """
         return jsonify({
             "status":400,
-            "error_msg":"Please provide user valid values"
+            "error_msg":"firstname, lastname,email,username,isAdmin,phonenumber,password and confirmpassword valuesa must be all strings"
             }),400
     else:
         """
@@ -66,14 +66,14 @@ def register_user():
         phonenumber=phonenumber.strip()
         if not first_name or not username or not last_name or not email or not isAdmin or not password or not confirm_pwd:
             """
-            Check if json values are empty
+                Check if json values are empty
             """
             return jsonify({
                 "status":400,
-                "error_msg":"All user's information is required to register"
+                "error_msg":"firstname, lastname,email,username,isAdmin,phonenumber,password and confirmpassword must have values"
                 }),400
         """
-        If all checkouts well then add user
+            If all checkouts well then add user
         """
         user_obj=users_model(first_name,last_name,email,username,isAdmin,phonenumber,password,confirm_pwd)
         user_data=user_obj.register_user()
@@ -89,8 +89,8 @@ def register_user():
 def login_user():
     
     """
-    An endpoint to login user.
-    It gets credentials from the user
+        An endpoint to login user. 
+        It gets credentials from the user
     """
     login_json_dict=request.get_json()  
 
@@ -98,9 +98,9 @@ def login_user():
 
     if not all(json_key in login_json_dict for json_key in login_keys_list):    
         return jsonify({
-            "status":500,
-            "error_msg":"One of the json key is missing"
-            }),500
+            "status":400,
+            "error_msg":"email or password key is missing. please provide it"
+            }),400
 
     email=login_json_dict['email']
     password=login_json_dict['password']
@@ -109,27 +109,27 @@ def login_user():
     password=password.strip()
     if not validate_json_values.validate_json_email_value(email) and email:
         """
-        Check if the email is valid
+            Check if the email is valid
         """
         return jsonify({
             "status":400,
-            "error_msg":"Please provide a valid email"
+            "error_msg":"The email provided is not a valid email. please provide a valid email"
             }),400
     if not email or not password:
         """
-        Check if email and password values are empty
+            Check if email and password values are empty
         """
         return jsonify({
             "status":400,
-            "error_msg":"Please fill both email and password to login"
+            "error_msg":"Both email and password values are required to login"
             }),400
     """
-    If all checks out get the user from users list
+        If all checks out get the user from users list
     """
     current_user=users_model.signin_user(email,password)
     if type(current_user)!=dict:
         """
-        if email wasn't found or the password is incoorect
+            if email wasn't found or the password is incorrrect
         """
         return jsonify({
             "status":401,
@@ -137,7 +137,7 @@ def login_user():
             }), 401
     else:
         """
-        If the email and password are correct then generate token
+            If the email and password are correct then generate token
         """
         token=jwt.encode({"id":current_user["id"],"exp":datetime.datetime.utcnow()+datetime.timedelta(minutes=30)},'secret',algorithm='HS256')
         return jsonify({
