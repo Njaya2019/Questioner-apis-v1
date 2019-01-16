@@ -7,10 +7,9 @@ class users_model():
     """
     A class that has instance variables and class methods
     """
-    def __init__(self,first_name,second_name,othername,email,username,isAdmin,phonenumber,password,confirm_pwd):
+    def __init__(self,first_name,last_name,email,username,isAdmin,phonenumber,password,confirm_pwd):
         self.first_name=first_name
-        self.second_name=second_name
-        self.othername=othername
+        self.last_name=last_name
         self.email=email
         self.username=username
         self.isAdmin=isAdmin
@@ -30,17 +29,16 @@ class users_model():
         hashed_password=generate_password_hash(self.password)
         users_dict={
             "id":self.user_id,'firstname':self.first_name,
-            'secondname':self.second_name,'othername':self.othername,
-            'isAdmin':self.isAdmin,'email':self.email,
-            "phonenumber":self.phonenumber,"username":self.username,
-            'password':hashed_password
+            'lastname':self.last_name,'isAdmin':self.isAdmin,
+            'email':self.email,"phonenumber":self.phonenumber,
+            "username":self.username,'password':hashed_password
             }
         users_list.append(users_dict)
         return {
             "id":self.user_id,'firstname':self.first_name,
-            'secondname':self.second_name,'othername':self.othername,
-            'isAdmin':self.isAdmin,'email':self.email,
-            "username":self.username,"phonenumber":self.phonenumber
+            'lastname':self.last_name,'isAdmin':self.isAdmin,
+            'email':self.email,"username":self.username,
+            "phonenumber":self.phonenumber
             }
 
     @classmethod

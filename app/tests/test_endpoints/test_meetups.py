@@ -23,7 +23,7 @@ class TestCreateMeetUps():
         now=datetime.datetime.now()
         now=now.strftime("%Y-%m-%d %H:%M")
         response=cli_ent.post(
-            '/api/v1/admin/meetups',
+            '/api/v1/meetups',
             data=json.dumps(
                 dict(
                     topic="python programming for beginners",
@@ -42,7 +42,7 @@ class TestCreateMeetUps():
         now=datetime.datetime.now()
         now=now.strftime("%Y-%m-%d %H:%M")
         response=cli_ent.post(
-            '/api/v1/admin/meetups',
+            '/api/v1/meetups',
             data=json.dumps(
                 dict(
                     topic="python programming for beginners",
@@ -61,7 +61,7 @@ class TestCreateMeetUps():
         now=datetime.datetime.now()
         now=now.strftime("%Y-%m-%d %H:%M")
         response=cli_ent.post(
-            '/api/v1/admin/meetups',
+            '/api/v1/meetups',
             data=json.dumps(dict(
                 topic="python programming for beginners",
                 description=1234,
@@ -77,7 +77,7 @@ class TestGetMeetUps():
         """
         A test to get a specific meetup record
         """
-        response=cli_ent.get('/api/v1/admin/meetups/'+str(1))
+        response=cli_ent.get('/api/v1/meetups/'+str(1))
         data=json.loads(response.data)
         assert response.status_code==200
         assert data["data"]["topic"]=="python programming for beginners"
@@ -86,7 +86,7 @@ class TestGetMeetUps():
         """
         Tests if the meetup wasn't found
         """
-        response=cli_ent.get('/api/v1/admin/meetups/'+str(2))
+        response=cli_ent.get('/api/v1/meetups/'+str(2))
         data=json.loads(response.data)
         assert response.status_code==404
         assert 'The meetup record wasn\'t found' in data["error_msg"]
@@ -95,7 +95,7 @@ class TestGetMeetUps():
         """
         Tests if the enpoint can get all meet ups
         """
-        response=cli_ent.get('/api/v1/admin/meetups')
+        response=cli_ent.get('/api/v1/meetups')
         data=json.loads(response.data)
         assert response.status_code==200
         assert data["data"]==meetups_list
@@ -108,7 +108,7 @@ class TestRsvp():
         This test if a response if successfully submitted
         """
         response=cli_ent.post(
-            '/api/v1/user/meetups/1/rsvp',
+            '/api/v1/meetups/1/rsvp',
             data=json.dumps(dict(
                 userid=1,
                 RSVPresponse="Yes"
@@ -121,7 +121,7 @@ class TestRsvp():
         When the meetup doesn't exist
         """
         response=cli_ent.post(
-            '/api/v1/user/meetups/2/rsvp',
+            '/api/v1/meetups/2/rsvp',
             data=json.dumps(dict(
                 userid=1,
                 RSVPresponse="Yes"

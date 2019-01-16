@@ -5,7 +5,7 @@ from models.questions_model import questionsmodel
 
 questions_blueprint=Blueprint("questions",__name__)        #Initialize a flask blueprint for questions
 
-@questions_blueprint.route("/api/v1/user/questions", methods=["POST"])
+@questions_blueprint.route("/api/v1/questions", methods=["POST"])
 def createquestion():
     """An endpoint to ask a question
     """
@@ -37,7 +37,7 @@ def createquestion():
             "body":question_asked["body"]}
         }),201
 
-@questions_blueprint.route("/api/v1/user/question/<int:question_id>/upvote", methods=["PATCH"])
+@questions_blueprint.route("/api/v1/questions/<int:question_id>/upvote", methods=["PATCH"])
 def upvote(question_id):
     """An endpoint to upvote a question and raises an error
          if question doesn't exist
@@ -53,7 +53,7 @@ def upvote(question_id):
         'error':upvoted_question
         }),403
 
-@questions_blueprint.route("/api/v1/user/question/<int:question_id>/downvote", methods=["PATCH"])
+@questions_blueprint.route("/api/v1/questions/<int:question_id>/downvote", methods=["PATCH"])
 def downvote(question_id):
     """An endpoint to downvote a question
          and raises an error if question doesn't exist

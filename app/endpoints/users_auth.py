@@ -7,15 +7,14 @@ import jwt, datetime
 
 userauth_blueprint=Blueprint("users",__name__)
 
-@userauth_blueprint.route("/api/v1/registration", methods=["POST"])
+@userauth_blueprint.route("/api/v1/signup", methods=["POST"])
 def register_user():
     """
     An endpoint to register a user.
     First it gets the values from the user
     """
     first_name=request.json['firstname']
-    second_name=request.json['secondname']
-    othername=request.json['othername']
+    last_name=request.json['lastname']
     email=request.json['email']
     username=request.json['username']
     isAdmin=request.json['isAdmin']
@@ -30,7 +29,7 @@ def register_user():
             "status":400,
             "error_msg":"Please provide a valid email"
             }),400
-    if not validate_json_values.validate_json_string_value(first_name) or not validate_json_values.validate_json_string_value(othername) or not validate_json_values.validate_json_string_value(username) or not validate_json_values.validate_json_string_value(second_name) or not validate_json_values.validate_json_string_value(email):
+    if not validate_json_values.validate_json_string_value(first_name) or not validate_json_values.validate_json_string_value(last_name) or not validate_json_values.validate_json_string_value(username) or not validate_json_values.validate_json_string_value(isAdmin) or not validate_json_values.validate_json_string_value(email):
         """
         Check if json values are valid
         """
@@ -44,14 +43,13 @@ def register_user():
         and end of the string.
         """
         first_name=first_name.strip()
-        second_name=second_name.strip()
-        othername=othername.strip()
+        last_name=last_name.strip()
         email=email.strip()
         username=username.strip()
-        username=email.strip()
+        email=email.strip()
         isAdmin=isAdmin.strip()
         phonenumber=phonenumber.strip()
-        if not first_name or not username or not second_name or not othername or not email or not isAdmin or not password or not confirm_pwd:
+        if not first_name or not username or not last_name or not email or not isAdmin or not password or not confirm_pwd:
             """
             Check if json values are empty
             """
@@ -62,7 +60,7 @@ def register_user():
         """
         If all checkouts well then add user
         """
-        user_obj=users_model(first_name,second_name,othername,email,username,isAdmin,phonenumber,password,confirm_pwd)
+        user_obj=users_model(first_name,last_name,email,username,isAdmin,phonenumber,password,confirm_pwd)
         user_data=user_obj.register_user()
         if type(user_data)!=dict:
             return jsonify({
@@ -120,6 +118,7 @@ def login_user():
         return jsonify({
             'token':token.decode('UTF-8'),
             "data":{
-                "email":current_user["email"],
+                "firstname":current_user["firstname"],
+                "username":current_user["username"],
                 "isAdmin":current_user["isAdmin"]
                 }}), 200
