@@ -9,18 +9,33 @@ userauth_blueprint=Blueprint("users",__name__)
 
 @userauth_blueprint.route("/api/v1/signup", methods=["POST"])
 def register_user():
+    
     """
     An endpoint to register a user.
     First it gets the values from the user
     """
-    first_name=request.json['firstname']
-    last_name=request.json['lastname']
-    email=request.json['email']
-    username=request.json['username']
-    isAdmin=request.json['isAdmin']
-    phonenumber=request.json['phonenumber']
-    password=request.json['password']
-    confirm_pwd=request.json['confirmpassword']
+    user_json_dict=request.get_json()  
+
+    user_keys_list=[
+        'firstname','lastname',
+        'email','username',
+        'isAdmin','phonenumber',
+        'password','confirmpassword']
+
+    if not all(json_key in user_json_dict for json_key in user_keys_list):    
+        return jsonify({
+            "status":500,
+            "error_msg":"One of the json key is missing"
+            }),500
+
+    first_name=user_json_dict['firstname']
+    last_name=user_json_dict['lastname']
+    email=user_json_dict['email']
+    username=user_json_dict['username']
+    isAdmin=user_json_dict['isAdmin']
+    phonenumber=user_json_dict['phonenumber']
+    password=user_json_dict['password']
+    confirm_pwd=user_json_dict['confirmpassword']
     
     if not validate_json_values.validate_json_email_value(email):
         """Check if the email is valid
@@ -77,8 +92,18 @@ def login_user():
     An endpoint to login user.
     It gets credentials from the user
     """
-    email=request.json['email']
-    password=request.json['password']
+    login_json_dict=request.get_json()  
+
+    login_keys_list=['email','password',]
+
+    if not all(json_key in login_json_dict for json_key in login_keys_list):    
+        return jsonify({
+            "status":500,
+            "error_msg":"One of the json key is missing"
+            }),500
+
+    email=login_json_dict['email']
+    password=login_json_dict['password']
 
     email=email.strip()
     password=password.strip()

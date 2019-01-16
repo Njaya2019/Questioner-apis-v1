@@ -9,10 +9,19 @@ questions_blueprint=Blueprint("questions",__name__)        #Initialize a flask b
 def createquestion():
     """An endpoint to ask a question
     """
-    question_title=request.json['title'].strip()
-    question_descrip=request.json['body'].strip()
-    user_id=request.json['userid']
-    meetup_id=request.json['meetupid']
+    json_question_dict=request.get_json()
+    question_keys_list=['title','body','userid','meetupid']
+    if not all(json_key in json_question_dict for json_key in question_keys_list):    
+        return jsonify({
+            "status":500,
+            "error_msg":"One of the json key is missing"
+            }),500
+
+    question_title=json_question_dict['title'].strip()
+    question_descrip=json_question_dict['body'].strip()
+    user_id=json_question_dict['userid']
+    meetup_id=json_question_dict['meetupid']
+
     if not question_title or not question_descrip or not user_id or not meetup_id:
         """Check if json values are empty
         """

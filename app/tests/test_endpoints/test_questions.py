@@ -13,6 +13,21 @@ def cli_ent():
     return client
 
 class TestCreateQuestion():
+    
+    def test_missing_question_key(self,cli_ent):
+        """
+            This tests if one of the json keys wasn't provided.
+        """
+        response=cli_ent.post(
+            '/api/v1/questions',
+            data=json.dumps(dict(
+                title="Access a value after an update query in postgresql",
+                body="I want to display the values to a user after they have updated instead of just an update message",
+                userid=1,
+                )),content_type="application/json")
+        data=json.loads(response.data)
+        assert response.status_code==500
+        assert "One of the json key is missing" in data["error_msg"]
 
     def test_createquestion(self,cli_ent):
         """
