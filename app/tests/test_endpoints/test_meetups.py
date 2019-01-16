@@ -13,6 +13,21 @@ def cli_ent():
     return client
 
 class TestCreateMeetUps():
+    def test_missing_meetupkey(self,cli_ent):
+        """
+            This Instance method to test if a json meetup
+             key is missing
+        """
+        response=cli_ent.post(
+            '/api/v1/meetups',
+            data=json.dumps(
+                dict(
+                    description="We started this to help each other.Regardless of your experince just join us share and learn.Welcome!",
+                    location="Mombasa,Kenya"
+                    )),content_type="application/json")
+        data=json.loads(response.data)
+        assert response.status_code==500
+        assert "One of the json key is missing"==data["error_msg"]
     
     def test_createmeetup(self,cli_ent):
         """

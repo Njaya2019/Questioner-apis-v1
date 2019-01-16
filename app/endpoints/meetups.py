@@ -10,11 +10,22 @@ meetups_blueprint=Blueprint("meetups",__name__)        #Initialize a flask bluep
 def createmeetup():
     
     """An endpoint to create a meetup
-    """
-    meetup_title=request.json['topic']
-    meetup_descrip=request.json['description']
-    location=request.json['location']
+    """ 
 
+    json_dict=request.get_json()  
+
+    meetup_keys_list=['topic','description','location']
+
+    if not all(json_key in json_dict for json_key in meetup_keys_list):    
+        return jsonify({
+            "status":500,
+            "error_msg":"One of the json key is missing"
+            }),500
+
+    meetup_title=json_dict['topic']
+    meetup_descrip=json_dict['description']
+    location=json_dict['location'] 
+ 
     if not validate_json_values.validate_json_string_value(meetup_title) or not validate_json_values.validate_json_string_value(meetup_descrip) or not validate_json_values.validate_json_string_value(location):
         """Check if json values are valid
         """

@@ -25,9 +25,10 @@ class validate_json_values():
             
     @classmethod
     def validate_json_email_value(cls,json_value):
-        """Class method to check if the email is valid returns true
-         if it is else false.
-         Below is a regular expression to match an email.
+        """
+            Class method to check if the email is valid returns true
+            if it is else false.
+            Below is a regular expression to match an email.
          """
         pattern=re.compile(r"[a-zA-Z0-9]+@[a-zA-Z]+\.com")
         matches=pattern.finditer(json_value)
@@ -35,3 +36,5 @@ class validate_json_values():
             if match:
                 return True
         return False
+        
+

@@ -10,8 +10,24 @@ def cli_ent():
     client=app.test_client()
     return client
 
-class TestsUserRegistration():
-    
+class TestsUserRegistration():    
+    def test_key_missing(self,cli_ent):
+        """
+            This instance method test if one of json key
+             is missing.
+        """
+        response=cli_ent.post('/api/v1/signup',
+            data=json.dumps(dict(
+                firstname="Juma",lastname="Masha",
+                email="jumamasha@gmail.com",
+                username="Juma",
+                phonenumber="0727645367",password="1234",
+                confirmpassword="1234"
+                )),content_type="application/json")
+        data=json.loads(response.data)
+        assert response.status_code==500
+        assert "One of the json key is missing"==data["error_msg"]
+
     def test_register_user(self,cli_ent):
         """This instance method test for successful registration of users.
         This test if the enpoint registers a user and returns a user id,
@@ -80,6 +96,17 @@ class TestsUserRegistration():
         assert 400==data["status"]
 
 class TestLoginUser():
+    def test_missing_key(self,cli_ent):
+        """
+            This instance method test if a json key is missing.
+        """ 
+        response=cli_ent.post('/api/v1/login',
+            data=json.dumps(dict(
+                email="jumamasha@gmail.com",
+                )),content_type="application/json")
+        data=json.loads(response.data)
+        assert response.status_code==500
+        assert "One of the json key is missing" in data["error_msg"]
     
     def test_login_user(self,cli_ent):
         """
