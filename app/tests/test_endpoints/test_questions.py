@@ -27,7 +27,7 @@ class TestCreateQuestion():
                 )),content_type="application/json")
         data=json.loads(response.data)
         assert response.status_code==400
-        assert "The title, body, userid or meetupid is missing.Find what's missing and provide it" in data["error_msg"]
+        assert "Please provide title, body, userid or meetupid to post a question" in data["error"]
 
     def test_createquestion(self,cli_ent):
         """
@@ -82,7 +82,7 @@ class TestCreateQuestion():
                 )),content_type="application/json")
         data=json.loads(response.data)
         assert response.status_code==400
-        assert "Please fill both values for title and the body of the question" in data["error"]
+        assert "Please fill both values for title and the body of the question to post a question" in data["error"]
         assert 400==data["status"]
 
     def test_createquestion_invalid_value(self,cli_ent):

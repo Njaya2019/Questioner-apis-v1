@@ -27,7 +27,7 @@ class TestCreateMeetUps():
                     )),content_type="application/json")
         data=json.loads(response.data)
         assert response.status_code==400
-        assert "topic,description or location json key is missing"==data["error_msg"]
+        assert "Please provide topic,description or location to crteate a meetup"==data["error"]
     
     def test_createmeetup(self,cli_ent):
         """
@@ -67,7 +67,7 @@ class TestCreateMeetUps():
                     )),content_type="application/json")
         data=json.loads(response.data)
         assert response.status_code==400
-        assert "Please fill all the values for topic,description and location" in data["error_msg"]
+        assert "Please fill all the values for topic,description and location to create a meetup" in data["error"]
 
     def test_createmeetup_invalid_value(self,cli_ent):
         """
@@ -86,7 +86,7 @@ class TestCreateMeetUps():
                 )),content_type="application/json")
         data=json.loads(response.data)
         assert response.status_code==400
-        assert "Please provide string values for topic,description and location" in data["error_msg"]
+        assert "Please provide string values for topic,description and location to create a meetup" in data["error"]
 
 class TestGetMeetUps():
 
@@ -106,7 +106,7 @@ class TestGetMeetUps():
         response=cli_ent.get('/api/v1/meetups/'+str(2))
         data=json.loads(response.data)
         assert response.status_code==404
-        assert 'The meetup records were not found' in data["error_msg"]
+        assert 'The meetup records were not found' in data["error"]
 
     def test_get_all_meetups(self,cli_ent):
         """
@@ -145,4 +145,4 @@ class TestRsvp():
                 )),content_type="application/json")
         data=json.loads(response.data)
         assert response.status_code==404
-        assert "The meetup you are responding to no longer exists or doesn't exists"==data["error_msg"]
+        assert "The meetup you are responding to no longer exists or doesn't exists"==data["error"]

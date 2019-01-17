@@ -20,7 +20,7 @@ def createmeetup():
     if not all(json_key in json_dict for json_key in meetup_keys_list):    
         return jsonify({
             "status":400,
-            "error_msg":"topic,description or location json key is missing"
+            "error":"Please provide topic,description or location to crteate a meetup"
             }),400
 
     meetup_title=json_dict['topic']
@@ -33,7 +33,7 @@ def createmeetup():
         """
         return jsonify({
                 "status":400,
-                "error_msg":"Please provide string values for topic,description and location"
+                "error":"Please provide string values for topic,description and location to create a meetup"
                 }),400
     else:
         """
@@ -49,7 +49,7 @@ def createmeetup():
             """
             return jsonify({
                     "status":400,
-                    "error_msg":"Please fill all the values for topic,description and location"
+                    "error":"Please fill all the values for topic,description and location to create a meetup"
                     }),400
         """
             If all checkouts well then create meetup
@@ -74,7 +74,7 @@ def get_a_meetup_record(meetup_id):
             "status":200,
             "data":meetup_record
             }), 200
-    return jsonify({"status":404,"error_msg":meetup_record}),404
+    return jsonify({"status":404,"error":meetup_record}),404
 
 @meetups_blueprint.route("/api/v1/meetups", methods=["GET"])
 def get_all_meetups():
@@ -86,7 +86,7 @@ def get_all_meetups():
     if not meetups_list:
         return jsonify({
             "status":404,
-            "error_msg":"There are no meetups to join yet"
+            "error":"There are no meetups to join yet"
             }),404   
     """
         Uses global list imported from 
@@ -105,7 +105,7 @@ def respond_rsvp(meetup_id):
     rsvp_obj=rsvp_model(user_id,rsvp_user_response)
     user_response=rsvp_obj.rsvp_response_method(meetup_id)
     if type(user_response)!=dict:
-        return jsonify({"status":404,"error_msg":user_response}),404
+        return jsonify({"status":404,"error":user_response}),404
     return jsonify({
         "status":201,
         "data":{"status":user_response["RSVPresponse"],
