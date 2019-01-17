@@ -52,5 +52,5 @@ class users_model():
                 if check_password_hash(stored_pwd,password):
                     return user
                 else:
-                    return "The user's password provided is incorrect"
-        return "The user's email provided doesn't exist"
+                    return "The user's password provided is incorrect. provide the correct password to login"
+        return "The email provided is doesn't exist. please check the email and try again"

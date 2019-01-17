@@ -18,9 +18,9 @@ class rsvp_model():
         An instance method to create rsvp response
         """
         if meetup_id>len(meetups_list):
-            return "The meetup no longer exists or doesn't exists"
+            return "The meetup you are responding to no longer exists or doesn't exists"
         if not meetups_list:
-            return "The meetup no longer exists or doesn't exists"
+            return "The meetup you are responding to no longer exists or doesn't exists"
         rsvp_meetup=meetups_list[meetup_id-1]
         rsvp_meetup_topic=rsvp_meetup["topic"]
         rsvp={
