@@ -1,25 +1,25 @@
-from flask import Blueprint,request,jsonify
+from flask import Blueprint, request,jsonify
 from models.questions_model import questionsmodel
 from validators.validate_json import validate_json_values
 from models.questions_model import questionsmodel
 
-questions_blueprint=Blueprint("questions",__name__)        #Initialize a flask blueprint for questions
+questions_blueprint = Blueprint("questions",__name__)        #'Initialize a flask blueprint for questions'
 
 @questions_blueprint.route("/api/v1/questions", methods=["POST"])
 def createquestion():
     """
         An endpoint to ask a question
     """
-    json_question_dict=request.get_json()
-    question_keys_list=['title','body','userid','meetupid']
+    json_question_dict = request.get_json()
+    question_keys_list =  ['title','body','userid','meetupid']
     if not all(json_key in json_question_dict for json_key in question_keys_list):    
         return jsonify({
-            "status":400,
-            "error_msg":"The title, body, userid or meetupid is missing.Find what's missing and provide it"
+            "status" : 400,
+            "error" : "Please provide title, body, userid or meetupid to post a question"
             }),400
 
-    question_title=json_question_dict['title'].strip()
-    question_descrip=json_question_dict['body'].strip()
+    question_title = json_question_dict['title'].strip()
+    question_descrip = json_question_dict['body'].strip()
     user_id=json_question_dict['userid']
     meetup_id=json_question_dict['meetupid']
 
@@ -29,7 +29,7 @@ def createquestion():
         """
         return jsonify({
             "status":400,
-            "error":"Please fill both values for title and the body of the question"
+            "error":"Please fill both values for title and the body of the question to post a question"
             }), 400
     if not validate_json_values.validate_json_string_value(question_title) or not validate_json_values.validate_json_string_value(question_descrip) or not validate_json_values.validate_json_integer_value(meetup_id) or not validate_json_values.validate_json_integer_value(user_id):
         """

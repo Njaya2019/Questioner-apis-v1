@@ -53,4 +53,4 @@ class users_model():
                     return user
                 else:
                     return "The user's password provided is incorrect. provide the correct password to login"
-        return "The email provided is doesn't exist. please check the email and try again"
+        return "The email provided doesn't exist. please check the email and try again"
