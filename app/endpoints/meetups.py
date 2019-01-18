@@ -100,15 +100,42 @@ def respond_rsvp(meetup_id):
     """
         An endpoint to respond to an RSVP
     """
-    user_id=request.json["userid"]
-    rsvp_user_response=request.json["RSVPresponse"].strip()
-    rsvp_obj=rsvp_model(user_id,rsvp_user_response)
-    user_response=rsvp_obj.rsvp_response_method(meetup_id)
-    if type(user_response)!=dict:
-        return jsonify({"status":404,"error":user_response}),404
-    return jsonify({
-        "status":201,
-        "data":{"status":user_response["RSVPresponse"],
-                "topic":user_response["meetuptopic"],
-                "meetupid":user_response["meetupid"]}
-                }),201
+    json_dict=request.get_json()  
+
+    rsvp_keys_list=['userid',"RSVPresponse"]
+
+    if not all(json_key in json_dict for json_key in rsvp_keys_list):    
+        return jsonify({
+            "status":400,
+            "error":"Please provide userid and RSVPresponse to respond to a RSPV"
+            }), 400
+    
+    user_id=json_dict["userid"]
+    rsvp_user_response=json_dict["RSVPresponse"]
+    if not validate_json_values.validate_json_string_value(rsvp_user_response):
+        return jsonify({
+            "status":400,
+            "error":"The RSVPresponse must be a string"
+            }), 400
+    if not validate_json_values.validate_json_integer_value(user_id):
+        return jsonify({
+            "status":400,
+            "error":"The userid must be an integer"
+            }), 400
+    else:
+        rsvp_user_response=rsvp_user_response.strip()
+        if not rsvp_user_response or not user_id:
+            return jsonify({
+                "status":400,
+                "error":"Please provide values for both RSVPresponse and userid"
+                }), 400 
+        rsvp_obj=rsvp_model(user_id,rsvp_user_response)
+        user_response=rsvp_obj.rsvp_response_method(meetup_id)
+        if type(user_response)!=dict:
+            return jsonify({"status":404,"error":user_response}),404
+        return jsonify({
+            "status":201,
+            "data":{"status":user_response["RSVPresponse"],
+                    "topic":user_response["meetuptopic"],
+                    "meetupid":user_response["meetupid"]}
+                    }),201
